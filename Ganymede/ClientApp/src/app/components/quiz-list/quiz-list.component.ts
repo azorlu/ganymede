@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-quiz-list',
@@ -14,7 +15,8 @@ export class QuizListComponent implements OnInit {
   quizzes: Quiz[];
   
   constructor(private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string) {
+    @Inject('BASE_URL') private baseUrl: string,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -41,9 +43,7 @@ export class QuizListComponent implements OnInit {
 
   onSelect(quiz: Quiz) {
     this.selectedQuiz = quiz;
-    console.log("quiz with Id "
-      + this.selectedQuiz.Id
-      + " has been selected.");
+    this.router.navigate(["quiz", this.selectedQuiz.Id]);
   }
 
 }
