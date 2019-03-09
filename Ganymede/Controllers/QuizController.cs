@@ -5,12 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mapster;
+using Ganymede.Data;
 
 namespace Ganymede.Controllers
 {
     [Route("api/[controller]")]
     public class QuizController : Controller
     {
+        private ApplicationDbContext DbContext;
+
+        public QuizController(ApplicationDbContext context)
+        {
+            // Instantiate the ApplicationDbContext through DI
+            DbContext = context;
+        }
 
         /// <summary>
         /// GET: api/quiz/{}id
@@ -21,18 +30,20 @@ namespace Ganymede.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            // create a sample quiz to match the given request
-            var v = new QuizViewModel()
-            {
-                Id = id,
-                Title = String.Format("Sample quiz with id {0}", id),
-                Description = "Not a real quiz: it's just a sample!",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now
-            };
-            // output the result in JSON format
+
+            var quiz = DbContext.Quizzes.Where(i => i.Id == id).FirstOrDefault();
+            
+            //var v = new QuizViewModel()
+            //{
+            //    Id = id,
+            //    Title = String.Format("Sample quiz with id {0}", id),
+            //    Description = "Not a real quiz: it's just a sample!",
+            //    CreatedDate = DateTime.Now,
+            //    LastModifiedDate = DateTime.Now
+            //};
+
             return new JsonResult(
-            v,
+            quiz.Adapt<QuizViewModel>(),
             new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented
@@ -48,22 +59,28 @@ namespace Ganymede.Controllers
         [HttpGet("Latest/{num}")]
         public IActionResult Latest(int num = 10)
         {
-            var sampleQuizzes = new List<QuizViewModel>();
+            var latest = DbContext.Quizzes
+                .OrderByDescending(q => q.CreatedDate)
+                .Take(num)
+                .ToArray();
+
+            //var sampleQuizzes = new List<QuizViewModel>();
             
-            for (int i = 1; i <= num; i++)
-            {
-                sampleQuizzes.Add(new QuizViewModel()
-                {
-                    Id = i,
-                    Title = String.Format("Sample Quiz {0}", i),
-                    Description = "This is a sample quiz",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedDate = DateTime.Now
-                });
-            }
-            // output the result in JSON format
+            //for (int i = 1; i <= num; i++)
+            //{
+            //    sampleQuizzes.Add(new QuizViewModel()
+            //    {
+            //        Id = i,
+            //        Title = String.Format("Sample Quiz {0}", i),
+            //        Description = "This is a sample quiz",
+            //        CreatedDate = DateTime.Now,
+            //        LastModifiedDate = DateTime.Now
+            //    });
+            //}
+            
+            
             return new JsonResult(
-            sampleQuizzes,
+            latest.Adapt<QuizViewModel[]>(),
             new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented
@@ -79,10 +96,16 @@ namespace Ganymede.Controllers
         [HttpGet("ByTitle/{num:int?}")]
         public IActionResult ByTitle(int num = 10)
         {
-            var sampleQuizzes = ((JsonResult)Latest(num)).Value
-            as List<QuizViewModel>;
+            var byTitle = DbContext.Quizzes
+                .OrderBy(q => q.Title)
+                .Take(num)
+                .ToArray();
+
+            //var sampleQuizzes = ((JsonResult)Latest(num)).Value
+            //as List<QuizViewModel>;
+
             return new JsonResult(
-            sampleQuizzes.OrderBy(t => t.Title),
+            byTitle.Adapt<QuizViewModel[]>(),
             new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented
@@ -98,14 +121,20 @@ namespace Ganymede.Controllers
         [HttpGet("Random/{num:int?}")]
         public IActionResult Random(int num = 10)
         {
-            var sampleQuizzes = ((JsonResult)Latest(num)).Value
-            as List<QuizViewModel>;
+            var random = DbContext.Quizzes
+                .OrderBy(q => Guid.NewGuid())
+                .Take(num)
+                .ToArray();
+
+            //var sampleQuizzes = ((JsonResult)Latest(num)).Value
+            //as List<QuizViewModel>;
+
             return new JsonResult(
-            sampleQuizzes.OrderBy(t => Guid.NewGuid()),
+            random.Adapt<QuizViewModel[]>(),
             new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented
-        });
+            });
 }
 }
 }
