@@ -10,16 +10,12 @@ using Ganymede.Data;
 using Ganymede.Data.Models;
 
 namespace Ganymede.Controllers
-{
-    [Route("api/[controller]")]
-    public class QuizController : Controller
+{ 
+    public class QuizController : BaseApiController
     {
-        private ApplicationDbContext DbContext;
-
-        public QuizController(ApplicationDbContext context)
+       
+        public QuizController(ApplicationDbContext context) : base(context)
         {
-            // Instantiate the ApplicationDbContext through DI
-            DbContext = context;
         }
 
         /// <summary>
@@ -42,21 +38,9 @@ namespace Ganymede.Controllers
                 });
             }
 
-            //var v = new QuizViewModel()
-            //{
-            //    Id = id,
-            //    Title = String.Format("Sample quiz with id {0}", id),
-            //    Description = "Not a real quiz: it's just a sample!",
-            //    CreatedDate = DateTime.Now,
-            //    LastModifiedDate = DateTime.Now
-            //};
-
             return new JsonResult(
             quiz.Adapt<QuizViewModel>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>
@@ -90,10 +74,7 @@ namespace Ganymede.Controllers
 
             return new JsonResult(
             latest.Adapt<QuizViewModel[]>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>
@@ -110,15 +91,9 @@ namespace Ganymede.Controllers
                 .Take(num)
                 .ToArray();
 
-            //var sampleQuizzes = ((JsonResult)Latest(num)).Value
-            //as List<QuizViewModel>;
-
             return new JsonResult(
             byTitle.Adapt<QuizViewModel[]>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>
@@ -135,15 +110,9 @@ namespace Ganymede.Controllers
                 .Take(num)
                 .ToArray();
 
-            //var sampleQuizzes = ((JsonResult)Latest(num)).Value
-            //as List<QuizViewModel>;
-
             return new JsonResult(
             random.Adapt<QuizViewModel[]>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>
@@ -176,10 +145,7 @@ namespace Ganymede.Controllers
             DbContext.SaveChanges();
             // return the newly-created Quiz to the client.
             return new JsonResult(quiz.Adapt<QuizViewModel>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>
@@ -215,10 +181,7 @@ namespace Ganymede.Controllers
             DbContext.SaveChanges();
             // return the updated Quiz to the client.
             return new JsonResult(quiz.Adapt<QuizViewModel>(),
-            new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented
-            });
+            JsonSettings);
         }
 
         /// <summary>

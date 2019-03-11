@@ -17,6 +17,7 @@ namespace Ganymede.ViewModels
         
         public int Id { get; set; }
         public int QuizId { get; set; }
+        [DefaultValue("")]
         public string Text { get; set; }
         public string Notes { get; set; }
         [DefaultValue(0)]

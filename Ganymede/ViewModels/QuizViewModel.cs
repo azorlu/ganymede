@@ -16,6 +16,7 @@ namespace Ganymede.ViewModels
         }
        
         public int Id { get; set; }
+        [DefaultValue("")]
         public string Title { get; set; }
         public string Description { get; set; }
         public string Text { get; set; }

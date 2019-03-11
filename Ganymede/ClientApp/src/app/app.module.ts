@@ -13,6 +13,12 @@ import { QuizEditComponent } from './components/quiz-edit/quiz-edit.component';
 import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { QuestionListComponent } from './components/question-list/question-list.component';
+import { QuestionEditComponent } from './components/question-edit/question-edit.component';
+import { AnswerListComponent } from './components/answer-list/answer-list.component';
+import { AnswerEditComponent } from './components/answer-edit/answer-edit.component';
+import { ResultListComponent } from './components/result-list/result-list.component';
+import { ResultEditComponent } from './components/result-edit/result-edit.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +30,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     QuizEditComponent,
     AboutComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    QuestionListComponent,
+    QuestionEditComponent,
+    AnswerListComponent,
+    AnswerEditComponent,
+    ResultListComponent,
+    ResultEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,6 +48,12 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
       { path: 'quiz/create', component: QuizEditComponent },
       { path: 'quiz/edit/:id', component: QuizEditComponent },
       { path: 'quiz/:id', component: QuizComponent },
+      { path: 'question/create/:id', component: QuestionEditComponent },
+      { path: 'question/edit/:id', component: QuestionEditComponent },
+      { path: 'answer/create/:id', component: AnswerEditComponent },
+      { path: 'answer/edit/:id', component: AnswerEditComponent },
+      { path: 'result/create/:id', component: ResultEditComponent },
+      { path: 'result/edit/:id', component: ResultEditComponent },
       { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },
       { path: '**', component: PageNotFoundComponent }
