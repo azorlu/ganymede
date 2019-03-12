@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 @Component({
   selector: 'app-result-edit',
   templateUrl: './result-edit.component.html',
-  styleUrls: ['./result-edit.component.css']
+  styleUrls: ['./result-edit.component.less']
 })
 export class ResultEditComponent implements OnInit {
 

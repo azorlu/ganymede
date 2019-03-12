@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 @Component({
   selector: 'app-question-edit',
   templateUrl: './question-edit.component.html',
-  styleUrls: ['./question-edit.component.css']
+  styleUrls: ['./question-edit.component.less']
 })
 export class QuestionEditComponent implements OnInit {
 

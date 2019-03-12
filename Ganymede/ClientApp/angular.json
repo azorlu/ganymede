@@ -25,7 +25,8 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "node_modules/bootswatch/dist/flatly/bootstrap.min.css",
+              "src/styles.less"
             ],
             "scripts": []
           },
@@ -145,5 +146,10 @@
       }
     }
   },
-  "defaultProject": "Ganymede"
+  "defaultProject": "Ganymede",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "less"
+    }
+  }
 }
